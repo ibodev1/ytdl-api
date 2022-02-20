@@ -28,7 +28,7 @@ router.get("/info/:id", async (req, res) => {
     download_mp3: "/mp3?url=https://www.youtube.com/watch?v=" + req.params.id,
     download_mp4: "/mp4?url=https://www.youtube.com/watch?v=" + req.params.id,
   };
-  res.status(200).send(JSON.stringify(data));
+  res.status(204).send(JSON.stringify(data));
 });
 
 router.get("/mp3", async (req, res) => {
@@ -57,6 +57,7 @@ router.get("/mp4", async (req, res) => {
   ytdl(url, { format: "mp4" }).pipe(res);
 });
 
+app.use(cors());
 app.use(bodyParser.json());
 app.use("/.netlify/functions/server", router); // path must route to lambda
 app.use("/", (req, res) => res.send({ message: "Work!" }));
