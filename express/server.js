@@ -12,8 +12,8 @@ router.get("/ibo", (req, res) => {
   res.send("ibo");
 });
 
-router.get("/info/:id", async (req, res) => {
-  let info = await ytdl.getInfo(req.params.id);
+router.get("/info/:id", (req, res) => {
+  let info = ytdl.getInfo(req.params.id);
   const data = {
     title: info.videoDetails.title,
     count: Number(info.videoDetails.viewCount),
@@ -31,11 +31,11 @@ router.get("/info/:id", async (req, res) => {
   res.status(204).json(JSON.stringify(data));
 });
 
-router.get("/mp3", async (req, res) => {
+router.get("/mp3", (req, res) => {
   var url = req.query.url;
-  const dataUrl = await new URL(url);
+  const dataUrl = new URL(url);
   var videoId = dataUrl.searchParams.get("v");
-  let info = await ytdl.getInfo(videoId);
+  let info = ytdl.getInfo(videoId);
   ytdl.filterFormats(info.formats, "audioonly");
   res.header(
     "Content-Disposition",
@@ -44,11 +44,11 @@ router.get("/mp3", async (req, res) => {
   ytdl(url, { format: "mp3" }).pipe(res);
 });
 
-router.get("/mp4", async (req, res) => {
+router.get("/mp4", (req, res) => {
   var url = req.query.url;
-  const dataUrl = await new URL(url);
+  const dataUrl = new URL(url);
   var videoId = dataUrl.searchParams.get("v");
-  let info = await ytdl.getInfo(videoId);
+  let info = ytdl.getInfo(videoId);
   ytdl.filterFormats(info.formats, "audioonly");
   res.header(
     "Content-Disposition",
@@ -60,7 +60,11 @@ router.get("/mp4", async (req, res) => {
 app.use(cors());
 app.use(bodyParser.json());
 app.use("/.netlify/functions/server", router); // path must route to lambda
-app.use("/", (req, res) => res.send({ message: "Work!" }));
+app.use("/", (req, res) =>
+  res.json({
+    message: "https://ytdownload-api.netlify.app/.netlify/functions/server/ibo",
+  })
+);
 
 module.exports = app;
 module.exports.handler = serverless(app);
