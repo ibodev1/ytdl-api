@@ -1,6 +1,10 @@
 # YouTube-Downloader
 A Node.js application to download YouTube videos that are not regionally restricted, private or rented.
 
+## GET /info/:videoId
+## GET /mp3/?url=videoUrl
+## GET /mp4/?url=videoUrl
+
 ## Getting started
 You need to have Node.js installed on your system. Download it from [Node.js Downloads](https://nodejs.org/en/download/) based on the system you're using. 
 
