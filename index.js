@@ -21,8 +21,12 @@ app.get("/info/:id", async (req, res) => {
     likes: info.videoDetails.likes,
     isPrivate: info.videoDetails.isPrivate,
     thumbnail: info.videoDetails.thumbnails[3],
-    download_mp3: "/mp3?url=https://www.youtube.com/watch?v=" + req.params.id,
-    download_mp4: "/mp4?url=https://www.youtube.com/watch?v=" + req.params.id,
+    download_mp3:
+      "https://ytdown-api.herokuapp.com/mp3?url=https://www.youtube.com/watch?v=" +
+      req.params.id,
+    download_mp4:
+      "https://ytdown-api.herokuapp.com/mp4?url=https://www.youtube.com/watch?v=" +
+      req.params.id,
   };
   res.status(200).send(JSON.stringify(data));
 });
@@ -56,5 +60,5 @@ app.get("/mp4", async (req, res) => {
 app.use(cors());
 
 app.listen(port, () => {
-  console.log(`[Server Start] http://localhost:${port}`);
+  console.log(`[Server Start] https://ytdown-api.herokuapp.com/t:${port}`);
 });
