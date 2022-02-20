@@ -1,18 +1,14 @@
-"use strict";
 const express = require("express");
-const path = require("path");
-const serverless = require("serverless-http");
-const app = express();
-const bodyParser = require("body-parser");
 const cors = require("cors");
 const ytdl = require("ytdl-core");
-const router = express.Router();
+const app = express();
+const port = process.env.PORT || 5000;
 
-router.get("/ibo", (req, res) => {
-  res.send("ibo");
+app.get("/", (req, res) => {
+  res.status(200).send({ status: 200, message: "It Works!" });
 });
 
-router.get("/info/:id", async (req, res) => {
+app.get("/info/:id", async (req, res) => {
   let info = await ytdl.getInfo(req.params.id);
   const data = {
     title: info.videoDetails.title,
@@ -28,47 +24,35 @@ router.get("/info/:id", async (req, res) => {
     download_mp3: "/mp3?url=https://www.youtube.com/watch?v=" + req.params.id,
     download_mp4: "/mp4?url=https://www.youtube.com/watch?v=" + req.params.id,
   };
-  res.status(204).json(JSON.stringify(data));
+  res.status(200).send(JSON.stringify(data));
 });
 
-router.get("/mp3", async (req, res) => {
+app.get("/mp3", async (req, res) => {
   var url = req.query.url;
   const dataUrl = await new URL(url);
   var videoId = dataUrl.searchParams.get("v");
   let info = await ytdl.getInfo(videoId);
   ytdl.filterFormats(info.formats, "audioonly");
-  res
-    .status(204)
-    .header(
-      "Content-Disposition",
-      'attachment; filename="ibodev1-' + info.videoDetails.title + ".mp3"
-    );
+  res.header(
+    "Content-Disposition",
+    'attachment; filename="ibodev1-' + info.videoDetails.title + ".mp3"
+  );
   ytdl(url, { format: "mp3" }).pipe(res);
 });
 
-router.get("/mp4", async (req, res) => {
+app.get("/mp4", async (req, res) => {
   var url = req.query.url;
   const dataUrl = await new URL(url);
   var videoId = dataUrl.searchParams.get("v");
   let info = await ytdl.getInfo(videoId);
   ytdl.filterFormats(info.formats, "audioonly");
-  res
-    .status(204)
-    .header(
-      "Content-Disposition",
-      'attachment; filename="ibodev1-' + info.videoDetails.title + ".mp4"
-    );
+  res.header(
+    "Content-Disposition",
+    'attachment; filename="ibodev1-' + info.videoDetails.title + ".mp4"
+  );
   ytdl(url, { format: "mp4" }).pipe(res);
 });
 
-app.use(cors());
-app.use(bodyParser.json());
-app.use("/.netlify/functions/server", router); // path must route to lambda
-app.use("/", (req, res) =>
-  res.status(204).json({
-    message: "https://ytdownload-api.netlify.app/.netlify/functions/server/ibo",
-  })
-);
-
-module.exports = app;
-module.exports.handler = serverless(app);
+app.listen(port, () => {
+  console.log(`[Server Start] http://localhost:${port}`);
+});
