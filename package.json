@@ -1,19 +1,35 @@
 {
-  "name": "server",
-  "version": "1.0.0",
-  "description": "A Node.js application to download YouTube videos",
-  "main": "index.js",
+  "name": "netlify-express",
+  "version": "0.0.1",
+  "description": "Example of how to deploy a Express.js Netlify app.",
+  "main": "functions/server.js",
   "scripts": {
-    "test": "nodemon index.js",
-    "start": "nodemon index.js"
+    "build": "netlify-lambda build express",
+    "start": "nodemon server-local.js"
   },
-  "author": "Teddy Winters",
-  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/neverendingqs/netlify-express.git"
+  },
+  "keywords": [
+    "netlify",
+    "express.js"
+  ],
+  "author": "neverendingqs",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/neverendingqs/netlify-express/issues"
+  },
+  "homepage": "https://github.com/neverendingqs/netlify-express#readme",
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.17.1",
-    "nodemon": "^2.0.15",
     "ytdl-core": "^4.10.1"
   },
-  "keywords": []
+  "devDependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "netlify-lambda": "^1.6.3",
+    "nodemon": "^1.19.2",
+    "serverless-http": "^2.3.0"
+  }
 }
