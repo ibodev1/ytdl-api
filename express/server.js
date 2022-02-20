@@ -28,7 +28,7 @@ router.get("/info/:id", async (req, res) => {
     download_mp3: "/mp3?url=https://www.youtube.com/watch?v=" + req.params.id,
     download_mp4: "/mp4?url=https://www.youtube.com/watch?v=" + req.params.id,
   };
-  res.status(204).send(JSON.stringify(data));
+  res.status(204).json(JSON.stringify(data));
 });
 
 router.get("/mp3", async (req, res) => {
