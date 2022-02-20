@@ -60,5 +60,5 @@ app.get("/mp4", async (req, res) => {
 app.use(cors());
 
 app.listen(port, () => {
-  console.log(`[Server Start] https://ytdown-api.herokuapp.com/t:${port}`);
+  console.log(`[Server Start] https://ytdown-api.herokuapp.com:${port}`);
 });
