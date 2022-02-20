@@ -33,28 +33,33 @@ app.get("/info/:id", async (req, res) => {
 
 app.get("/mp3", async (req, res) => {
   var url = req.query.url;
-  const dataUrl = await new URL(url);
+  const dataUrl = new URL(url);
   var videoId = dataUrl.searchParams.get("v");
   let info = await ytdl.getInfo(videoId);
+  console.log("İndiriliyor..." + info.videoDetails.title);
   ytdl.filterFormats(info.formats, "audioonly");
   res.header(
     "Content-Disposition",
     'attachment; filename="ibodev1-' + info.videoDetails.title + ".mp3"
   );
-  ytdl(url, { format: "mp3" }).pipe(res);
+  ytdl(url, {
+    quality: "highestaudio",
+    filter: "audioonly",
+    format: "mp3",
+  });
 });
 
 app.get("/mp4", async (req, res) => {
   var url = req.query.url;
-  const dataUrl = await new URL(url);
+  const dataUrl = new URL(url);
   var videoId = dataUrl.searchParams.get("v");
   let info = await ytdl.getInfo(videoId);
-  ytdl.filterFormats(info.formats, "audioonly");
+  console.log("İndiriliyor..." + info.videoDetails.title);
   res.header(
     "Content-Disposition",
     'attachment; filename="ibodev1-' + info.videoDetails.title + ".mp4"
   );
-  ytdl(url, { format: "mp4" }).pipe(res);
+  ytdl(url, { quality: "highestvideo", format: "mp4" }).pipe(res);
 });
 
 app.use(cors());
