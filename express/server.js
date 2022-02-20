@@ -12,8 +12,8 @@ router.get("/ibo", (req, res) => {
   res.send("ibo");
 });
 
-router.get("/info/:id", (req, res) => {
-  let info = ytdl.getInfo(req.params.id);
+router.get("/info/:id", async (req, res) => {
+  let info = await ytdl.getInfo(req.params.id);
   const data = {
     title: info.videoDetails.title,
     count: Number(info.videoDetails.viewCount),
@@ -31,29 +31,33 @@ router.get("/info/:id", (req, res) => {
   res.status(204).json(JSON.stringify(data));
 });
 
-router.get("/mp3", (req, res) => {
+router.get("/mp3", async (req, res) => {
   var url = req.query.url;
-  const dataUrl = new URL(url);
+  const dataUrl = await new URL(url);
   var videoId = dataUrl.searchParams.get("v");
-  let info = ytdl.getInfo(videoId);
+  let info = await ytdl.getInfo(videoId);
   ytdl.filterFormats(info.formats, "audioonly");
-  res.header(
-    "Content-Disposition",
-    'attachment; filename="ibodev1-' + info.videoDetails.title + ".mp3"
-  );
+  res
+    .status(204)
+    .header(
+      "Content-Disposition",
+      'attachment; filename="ibodev1-' + info.videoDetails.title + ".mp3"
+    );
   ytdl(url, { format: "mp3" }).pipe(res);
 });
 
-router.get("/mp4", (req, res) => {
+router.get("/mp4", async (req, res) => {
   var url = req.query.url;
-  const dataUrl = new URL(url);
+  const dataUrl = await new URL(url);
   var videoId = dataUrl.searchParams.get("v");
-  let info = ytdl.getInfo(videoId);
+  let info = await ytdl.getInfo(videoId);
   ytdl.filterFormats(info.formats, "audioonly");
-  res.header(
-    "Content-Disposition",
-    'attachment; filename="ibodev1-' + info.videoDetails.title + ".mp4"
-  );
+  res
+    .status(204)
+    .header(
+      "Content-Disposition",
+      'attachment; filename="ibodev1-' + info.videoDetails.title + ".mp4"
+    );
   ytdl(url, { format: "mp4" }).pipe(res);
 });
 
@@ -61,7 +65,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use("/.netlify/functions/server", router); // path must route to lambda
 app.use("/", (req, res) =>
-  res.json({
+  res.status(204).json({
     message: "https://ytdownload-api.netlify.app/.netlify/functions/server/ibo",
   })
 );
