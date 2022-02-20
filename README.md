@@ -4,11 +4,9 @@ A Node.js application to download YouTube videos that are not regionally restric
 ## Getting started
 You need to have Node.js installed on your system. Download it from [Node.js Downloads](https://nodejs.org/en/download/) based on the system you're using. 
 
-Clone this repository and navigate to folder `server` which has the file `index.js` which is the server file and `package.json` which has the metadata about the project including the dependencies. 
-
 In this folder, run the command -
 
-`npm install` to install all the dependent modules. And once the modules are installed successfully, start the server by running the command - `node ./index.js` and open your browser with URL `http://localhost:3000` to see the below landing page
+`npm install` to install all the dependent modules. And once the modules are installed successfully, start the server by running the command - `nodemon ./index.js` and open your browser with URL `http://localhost:5000` to see the below landing page
 
 ![Landing page looks like this](dump/image.png)
 
