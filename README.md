@@ -1,6 +1,10 @@
 # YouTube-Downloader
 A Node.js application to download YouTube videos that are not regionally restricted, private or rented.
 
+Base URL : https://ytdown-api.herokuapp.com/
+
+Example GET Request : https://ytdown-api.herokuapp.com/info/dQw4w9WgXcQ
+
 ## GET /info/:videoId
 ## GET /mp3/?url=videoUrl
 ## GET /mp4/?url=videoUrl
