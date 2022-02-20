@@ -53,6 +53,8 @@ app.get("/mp4", async (req, res) => {
   ytdl(url, { format: "mp4" }).pipe(res);
 });
 
+app.use(cors());
+
 app.listen(port, () => {
   console.log(`[Server Start] http://localhost:${port}`);
 });
